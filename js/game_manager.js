@@ -1,3 +1,5 @@
+var moveNumber = 0;
+
 function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.size         = size; // Size of the grid
   this.inputManager = new InputManager;
@@ -58,6 +60,7 @@ GameManager.prototype.addStartTiles = function () {
 
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
+  moveNumber++;
   if (this.grid.cellsAvailable()) {
     var value = Math.random() < 0.9 ? 2 : 4;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
@@ -127,7 +130,7 @@ GameManager.prototype.move = function (direction) {
 
         // Only one merger per row traversal?
         if (next && next.value === tile.value && !next.mergedFrom) {
-          var merged = new Tile(positions.next, tile.value * 2);
+          var merged = new Tile(positions.next, (moveNumber % 37 == 0)?(tile.value * 2):(tile.value * 2 - 1));
           merged.mergedFrom = [tile, next];
 
           self.grid.insertTile(merged);
