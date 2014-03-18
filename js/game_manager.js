@@ -1,3 +1,5 @@
+var moveNumber = 0;
+
 function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.size         = size; // Size of the grid
   this.inputManager = new InputManager;
@@ -127,7 +129,7 @@ GameManager.prototype.move = function (direction) {
 
         // Only one merger per row traversal?
         if (next && next.value === tile.value && !next.mergedFrom) {
-          var merged = new Tile(positions.next, tile.value * 2);
+          var merged = new Tile(positions.next, (++moveNumber % 37 == 0)?(tile.value * 2 - 1):(tile.value * 2));
           merged.mergedFrom = [tile, next];
 
           self.grid.insertTile(merged);
